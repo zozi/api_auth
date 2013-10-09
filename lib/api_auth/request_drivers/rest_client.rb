@@ -29,6 +29,7 @@ module ApiAuth
         else
           body = ''
         end
+        @request.payload.inspect # FIXME hack to reset internal stream to position 0
         Digest::MD5.base64digest(body)
       end
 
