@@ -12,6 +12,7 @@ module ApiAuth
       def initialize(request)
         @request = request
         @headers = fetch_headers
+        @processed_headers = capitalize_keys @request.processed_headers
         true
       end
 
@@ -79,7 +80,9 @@ module ApiAuth
     private
 
       def find_header(keys)
-        keys.map {|key| @headers[key] }.compact.first
+        keys.map do |key|
+          @headers[key] || @processed_headers[key]
+        end.compact.first
       end
       
       def save_headers
